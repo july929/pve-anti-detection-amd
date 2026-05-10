@@ -9,7 +9,7 @@ sed -i 's/QEMU vhost-user-gpu/'${brand}' vhost-user-gpu/g' contrib/vhost-user-gp
 sed -i 's/desc->oem_id/ACPI_BUILD_APPNAME6/g' hw/acpi/aml-build.c
 sed -i 's/desc->oem_table_id/ACPI_BUILD_APPNAME8/g' hw/acpi/aml-build.c
 sed -i 's/array, ACPI_BUILD_APPNAME8/array, "PTL "/g' hw/acpi/aml-build.c
-sed -i 's/"QEMU/"AuthenticAMD/g' hw/acpi/aml-build.c
+sed -i 's/"QEMU/"AMD/g' hw/acpi/aml-build.c
 
 grep "do this once" hw/acpi/vmgenid.c >/dev/null
 if [ $? -eq 0 ]; then
@@ -94,7 +94,7 @@ sed -i 's/"QEMU/"'${brand}'/g' hw/usb/dev-wacom.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-emulated.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-passthru.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f.c
-sed -i 's/"BOCHS/"AuthenticAMD/g' include/hw/acpi/aml-build.h
+sed -i 's/"BOCHS/"AMD/g' include/hw/acpi/aml-build.h
 sed -i 's/"BXPC/"PC1002/g' include/hw/acpi/aml-build.h
 sed -i 's/"QEMU0002/"'${brand}'0002/g' include/standard-headers/linux/qemu_fw_cfg.h
 sed -i 's/0x51454d5520434647ULL/0x4155535520434647ULL/g' include/standard-headers/linux/qemu_fw_cfg.h
