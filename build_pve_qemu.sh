@@ -4,16 +4,16 @@ ls
 df -h
 git clone git://git.proxmox.com/git/pve-qemu.git
 cd pve-qemu
-# pve9 10.1.2-7
-git reset --hard a7c7a6b2b1aa75360d914b252dfcb05506ce590b
+# pve9 11.0.0-1
+git reset --hard 3ca3727c0c3e6ee853f752ffbcec11679ebfbac9
 sudo apt install devscripts -y
 yes | sudo mk-build-deps --install
 git submodule update --init --recursive
-cp ../sedPatch-pve-qemu-kvm9-10-anti-dection.sh qemu/
+cp ../sedPatch-pve-qemu-kvm11-anti-dection.sh qemu/
 cd qemu
 meson subprojects download
-chmod +x sedPatch-pve-qemu-kvm9-10-anti-dection.sh
-bash sedPatch-pve-qemu-kvm9-10-anti-dection.sh
+chmod +x sedPatch-pve-qemu-kvm11-anti-dection.sh
+bash sedPatch-pve-qemu-kvm11-anti-dection.sh
 cp ../../smbios.h include/hw/firmware/smbios.h
 cp ../../smbios.c hw/smbios/smbios.c
 cp ../../bootsplash.jpg pc-bios/bootsplash.jpg # modify seabios bootsplash.jpg
