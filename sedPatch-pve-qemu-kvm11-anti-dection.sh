@@ -94,8 +94,8 @@ sed -i 's/"QEMU/"'${brand}'/g' hw/usb/dev-wacom.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-emulated.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-passthru.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f.c
-sed -i 's/"BOCHS/"ALASKA/g' include/hw/acpi/aml-build.h
-sed -i 's/"BXPC/"A M I   /g' include/hw/acpi/aml-build.h
+sed -i 's/"BOCHS/"AMD/g' include/hw/acpi/aml-build.h
+sed -i 's/"BXPC/"AMI/g' include/hw/acpi/aml-build.h
 sed -i 's/"QEMU0002/"UEFI0002/g' include/standard-headers/linux/qemu_fw_cfg.h
 sed -i 's/0x51454d5520434647ULL/0x51434f4d20434647ULL/g' include/standard-headers/linux/qemu_fw_cfg.h
 sed -i 's/"QEMU/"'${brand}'/g' migration/migration.c
