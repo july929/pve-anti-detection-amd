@@ -94,8 +94,8 @@ sed -i 's/"QEMU/"'${brand}'/g' hw/usb/dev-wacom.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-emulated.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-passthru.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f.c
-sed -i 's/"BOCHS/"AMD/g' include/hw/acpi/aml-build.h
-sed -i 's/"BXPC/"AMI/g' include/hw/acpi/aml-build.h
+sed -i 's/"BOCHS/"AMD  /g' include/hw/acpi/aml-build.h
+sed -i 's/"BXPC/"AMI /g' include/hw/acpi/aml-build.h
 sed -i 's/"QEMU0002/"UEFI0002/g' include/standard-headers/linux/qemu_fw_cfg.h
 sed -i 's/0x51454d5520434647ULL/0x51434f4d20434647ULL/g' include/standard-headers/linux/qemu_fw_cfg.h
 sed -i 's/"QEMU/"'${brand}'/g' migration/migration.c
@@ -124,13 +124,13 @@ sed -i 's/t->configured_voltage = cpu_to_le16(0);/t->configured_voltage = cpu_to
 sed -i 's/t->location = 0x01;/t->location = 0x03;/g' hw/smbios/smbios.c
 sed -i 's/t->error_correction = 0x06;/t->error_correction = 0x03;/g' hw/smbios/smbios.c
 sed -i 's/"QEMU TCG CPU version/"TCG CPU version/g' target/i386/cpu.c
-sed -i 's/"Microsoft Hv/"GenuineIntel/g' target/i386/cpu.c  #解决n卡vgpu驱动43问题
+sed -i 's/"Microsoft Hv/"AuthenticAMD/g' target/i386/cpu.c  #解决n卡vgpu驱动43问题
 #sed -i 's/#define PCI_SUBVENDOR_ID_REDHAT_QUMRANET 0x1af4/#define PCI_SUBVENDOR_ID_REDHAT_QUMRANET 0x1022/g' include/hw/pci/pci.h # 0x1afe 是qemu虚拟机的id，这里为了兼容性只处理SUBVENDOR_ID。如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。
 #sed -i 's/#define PCI_VENDOR_ID_REDHAT_QUMRANET    0x1af4/#define PCI_VENDOR_ID_REDHAT_QUMRANET    0x1022/g' include/hw/pci/pci.h #如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。比如scsi virtioNET virtioBlock不认
 #sed -i 's/#define PCI_VENDOR_ID_REDHAT             0x1b36/#define PCI_VENDOR_ID_REDHAT             0x1022/g' include/hw/pci/pci.h #如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。比如scsi virtioNET virtioBlock不认
 sed -i 's/0x1af4/0x10EC/g' hw/audio/hda-codec.c # Realtek HDA Codec Vendor ID
-sed -i 's/0x2668/0x15e3/g' hw/audio/intel-hda.c # AMD - Ryzen HD Audio Controller
-sed -i 's/0x293e/0x15e3/g' hw/audio/intel-hda.c # AMD - Ryzen HD Audio Controller
+sed -i 's/0x2668/0x51c8/g' hw/audio/intel-hda.c # Intel 82801IB ICH6 - High Definition Audio
+sed -i 's/0x293e/0x51c8/g' hw/audio/intel-hda.c # Intel 82801IB ICH9 - High Definition Audio
 sed -i 's/rev = 3/rev = 4/g' hw/i386/acpi-build.c # Most VMs use an older-style FADT of length 244  bytes (revision  3), cutting off before the Sleep Control/Status registers and Hypervisor ID
 sed -i 's/fadt.rev = 1/fadt.rev = 4/g' hw/i386/acpi-build.c # Most VMs use an older-style FADT of length 244  bytes (revision  3), cutting off before the Sleep Control/Status registers and Hypervisor ID
 sed -i 's/if (f->rev <= 4) {/if (f->rev <= 6) {\n\t\tbuild_append_gas_from_struct(tbl, \&f->sleep_ctl);\n\t\tbuild_append_gas_from_struct(tbl, \&f->sleep_sts);/g' hw/acpi/aml-build.c # # Most VMs use an older-style FADT of length 244  bytes (revision  3), cutting off before the Sleep Control/Status registers and Hypervisor ID
