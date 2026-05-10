@@ -55,7 +55,7 @@ sed -i 's/"QEMU Virtio/"'${brand}'/g' hw/input/virtio-input-hid.c
 sed -i 's/QEMU M68K Virtual Machine/'${brand}' M68K Real Machine/g' hw/m68k/virt.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/misc/pvpanic-isa.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/nvme/ctrl.c
-sed -i 's/0x51454d5520434647ULL/0x4155535520434647ULL/g' hw/nvram/fw_cfg.c
+sed -i 's/0x51454d5520434647ULL/0x51434f4d20434647ULL/g' hw/nvram/fw_cfg.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/nvram/fw_cfg-acpi.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/pci-host/gpex.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/ppc/prep.c
@@ -69,10 +69,10 @@ sed -i 's/QEMU MPT Fusion/'${brand}' MPT Fusion/g' hw/scsi/mptconfig.c
 sed -i 's/"QEMU"/"'${brand}'"/g' hw/scsi/mptconfig.c
 sed -i 's/0000111122223333/1145141919810000/g' hw/scsi/mptconfig.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/scsi/scsi-bus.c
-sed -i 's/qemu_hw_version()/"999"/g' hw/scsi/scsi-bus.c #scsi bus version 4字符大小
+sed -i 's/qemu_hw_version()/"666"/g' hw/scsi/scsi-bus.c #scsi bus version 4字符大小
 sed -i 's/"QEMU/"'${brand}'/g' hw/scsi/megasas.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/scsi/scsi-disk.c
-sed -i 's/qemu_hw_version()/"999"/g' hw/scsi/scsi-disk.c #scsi 固件version 5字符大小
+sed -i 's/qemu_hw_version()/"666"/g' hw/scsi/scsi-disk.c #scsi 固件version 5字符大小
 sed -i 's/"QEMU/"'${brand}'/g' hw/scsi/spapr_vscsi.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/sd/sd.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/ufs/lu.c
@@ -94,13 +94,13 @@ sed -i 's/"QEMU/"'${brand}'/g' hw/usb/dev-wacom.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-emulated.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f-passthru.c
 sed -i 's/"QEMU/"'${brand}'/g' hw/usb/u2f.c
-sed -i 's/"BOCHS/"AMD/g' include/hw/acpi/aml-build.h
-sed -i 's/"BXPC/"PC1002/g' include/hw/acpi/aml-build.h
-sed -i 's/"QEMU0002/"'${brand}'0002/g' include/standard-headers/linux/qemu_fw_cfg.h
-sed -i 's/0x51454d5520434647ULL/0x4155535520434647ULL/g' include/standard-headers/linux/qemu_fw_cfg.h
+sed -i 's/"BOCHS/"ALASKA/g' include/hw/acpi/aml-build.h
+sed -i 's/"BXPC/"A M I   /g' include/hw/acpi/aml-build.h
+sed -i 's/"QEMU0002/"UEFI0002/g' include/standard-headers/linux/qemu_fw_cfg.h
+sed -i 's/0x51454d5520434647ULL/0x51434f4d20434647ULL/g' include/standard-headers/linux/qemu_fw_cfg.h
 sed -i 's/"QEMU/"'${brand}'/g' migration/migration.c
 sed -i 's/"QEMU/"'${brand}'/g' migration/rdma.c
-sed -i 's/0x51454d5520434647ULL/0x4155535520434647ULL/g' pc-bios/optionrom/optionrom.h
+sed -i 's/0x51454d5520434647ULL/0x51434f4d20434647ULL/g' pc-bios/optionrom/optionrom.h
 sed -i 's/"QEMU/"'${brand}'/g' pc-bios/s390-ccw/virtio-scsi.h
 sed -i 's/"QEMU/"'${brand}'/g' roms/seabios-hppa/src/fw/ssdt-misc.dsl
 sed -i 's/KVMKVMKVM\\0\\0\\0/\\1\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0/g' target/i386/kvm/kvm.c
@@ -125,12 +125,12 @@ sed -i 's/t->location = 0x01;/t->location = 0x03;/g' hw/smbios/smbios.c
 sed -i 's/t->error_correction = 0x06;/t->error_correction = 0x03;/g' hw/smbios/smbios.c
 sed -i 's/"QEMU TCG CPU version/"TCG CPU version/g' target/i386/cpu.c
 sed -i 's/"Microsoft Hv/"AuthenticAMD/g' target/i386/cpu.c  #解决n卡vgpu驱动43问题
-#sed -i 's/#define PCI_SUBVENDOR_ID_REDHAT_QUMRANET 0x1af4/#define PCI_SUBVENDOR_ID_REDHAT_QUMRANET 0x8086/g' include/hw/pci/pci.h # 0x1afe 是qemu虚拟机的id，这里为了兼容性只处理SUBVENDOR_ID。如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。
-#sed -i 's/#define PCI_VENDOR_ID_REDHAT_QUMRANET    0x1af4/#define PCI_VENDOR_ID_REDHAT_QUMRANET    0x8086/g' include/hw/pci/pci.h #如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。比如scsi virtioNET virtioBlock不认
-#sed -i 's/#define PCI_VENDOR_ID_REDHAT             0x1b36/#define PCI_VENDOR_ID_REDHAT             0x8086/g' include/hw/pci/pci.h #如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。比如scsi virtioNET virtioBlock不认
-sed -i 's/0x1af4/0x10EC/g' hw/audio/hda-codec.c # QEMU_HDA_ID_VENDOR  0x1af4 =ich9-intel-hda
-sed -i 's/0x2668/0x51c8/g' hw/audio/intel-hda.c # Intel 82801IB ICH6 - High Definition Audio
-sed -i 's/0x293e/0x51c8/g' hw/audio/intel-hda.c # Intel 82801IB ICH9 - High Definition Audio
+#sed -i 's/#define PCI_SUBVENDOR_ID_REDHAT_QUMRANET 0x1af4/#define PCI_SUBVENDOR_ID_REDHAT_QUMRANET 0x1022/g' include/hw/pci/pci.h # 0x1afe 是qemu虚拟机的id，这里为了兼容性只处理SUBVENDOR_ID。如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。
+#sed -i 's/#define PCI_VENDOR_ID_REDHAT_QUMRANET    0x1af4/#define PCI_VENDOR_ID_REDHAT_QUMRANET    0x1022/g' include/hw/pci/pci.h #如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。比如scsi virtioNET virtioBlock不认
+#sed -i 's/#define PCI_VENDOR_ID_REDHAT             0x1b36/#define PCI_VENDOR_ID_REDHAT             0x1022/g' include/hw/pci/pci.h #如果处理了VENDOR_ID=0x1af4 或者 VENDOR_ID=0x1b36 为其他值会造成一些设备无法使用。比如scsi virtioNET virtioBlock不认
+sed -i 's/0x1af4/0x10EC/g' hw/audio/hda-codec.c # Realtek HDA Codec Vendor ID
+sed -i 's/0x2668/0x15e3/g' hw/audio/intel-hda.c # AMD - Ryzen HD Audio Controller
+sed -i 's/0x293e/0x15e3/g' hw/audio/intel-hda.c # AMD - Ryzen HD Audio Controller
 sed -i 's/rev = 3/rev = 4/g' hw/i386/acpi-build.c # Most VMs use an older-style FADT of length 244  bytes (revision  3), cutting off before the Sleep Control/Status registers and Hypervisor ID
 sed -i 's/fadt.rev = 1/fadt.rev = 4/g' hw/i386/acpi-build.c # Most VMs use an older-style FADT of length 244  bytes (revision  3), cutting off before the Sleep Control/Status registers and Hypervisor ID
 sed -i 's/if (f->rev <= 4) {/if (f->rev <= 6) {\n\t\tbuild_append_gas_from_struct(tbl, \&f->sleep_ctl);\n\t\tbuild_append_gas_from_struct(tbl, \&f->sleep_sts);/g' hw/acpi/aml-build.c # # Most VMs use an older-style FADT of length 244  bytes (revision  3), cutting off before the Sleep Control/Status registers and Hypervisor ID
@@ -138,6 +138,8 @@ sed -i 's/lat = 0xfff/lat = 0x1fff/g' hw/i386/acpi-build.c  # A value > 100 indi
 sed -i 's/"WAET"/"WWWT"/g' hw/i386/acpi-build.c # "WAET" is also present as a string inside the WAET table, so there's no need to check for its table signature
 sed -i 's/rev = 1/rev = 3/g' hw/i386/acpi-build.c # 全部升级最低为3
 sed -i 's/dev = aml_device("PCI0");/aml_append(sb_scope, aml_name_decl("OSYS", aml_int(0x03E8)));\n\tAml *osi = aml_if(aml_equal(aml_call1("_OSI", aml_string("Windows 2012")), aml_int(1)));\n\taml_append(osi, aml_store(aml_int(0x07DC), aml_name("OSYS")));\n\taml_append(sb_scope, osi);\n\tosi = aml_if(aml_equal(aml_call1("_OSI",aml_string("Windows 2013")), aml_int(1)));\n\taml_append(osi, aml_store(aml_int(0x07DD), aml_name("OSYS")));\n\taml_append(sb_scope, osi);\n\taml_append(sb_scope, aml_name_decl("_TZ", aml_int(0x03E8)));\n\taml_append(sb_scope, aml_name_decl("_PTS", aml_int(0x03E8)));\n\tdev = aml_device("PCI0");/g' hw/i386/acpi-build.c # windows 2012 2013 _TZ_ _PTS dsdt
-#sed -i 's/0x0627/0x6666/g' hw/input/virtio-input-hid.c # 0x0627=QEMU tablet usb键鼠会有少量问题
-#sed -i 's/0x0627/0x6666/g' hw/usb/dev-hid.c # 0x0627=QEMU tablet usb键鼠会有少量问题
+sed -i 's/0x0627/0x046D/g' hw/input/virtio-input-hid.c # 0x0627=QEMU tablet usb键鼠会有少量问题
+sed -i 's/0x0627/0x046D/g' hw/usb/dev-hid.c # 0x0627=QEMU tablet usb键鼠会有少量问题
+sed -i 's/0x0001/0xC31C/g' hw/input/virtio-input-hid.c # 0x0627=QEMU tablet usb键鼠会有少量问题
+sed -i 's/0x0001/0xC31C/g' hw/usb/dev-hid.c # 0x0627=QEMU tablet usb键鼠会有少量问题
 echo "结束sed工作"
