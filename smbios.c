@@ -17,6 +17,7 @@
 
 #include "qemu/osdep.h"
 #include "qemu/units.h"
+#include "qemu/bswap.h"
 #include "qapi/error.h"
 #include "qemu/config-file.h"
 #include "qemu/module.h"
@@ -24,8 +25,8 @@
 #include "system/system.h"
 #include "qemu/uuid.h"
 #include "hw/firmware/smbios.h"
-#include "hw/loader.h"
-#include "hw/boards.h"
+#include "hw/core/loader.h"
+#include "hw/core/boards.h"
 #include "hw/pci/pci_bus.h"
 #include "hw/pci/pci_device.h"
 #include "smbios_build.h"
@@ -178,6 +179,10 @@ static const QemuOptDesc qemu_smbios_type0_opts[] = {
         .name = "uefi",
         .type = QEMU_OPT_BOOL,
         .help = "uefi support",
+    },{
+        .name = "vm",
+        .type = QEMU_OPT_BOOL,
+        .help = "real machine", //AICodo modify
     },
     { /* end of list */ }
 };
@@ -755,7 +760,9 @@ static void smbios_build_type_0_table(void)
     if (smbios_type0.uefi) {
         t->bios_characteristics_extension_bytes[1] |= 0x08; /* |= UEFI */
     }
-
+    if (smbios_type0.vm) {
+        t->bios_characteristics_extension_bytes[1] |= 0x08; /* |= VM */ //AICodo modify
+    }
     if (smbios_type0.have_major_minor) {
         t->system_bios_major_release = smbios_type0.major;
         t->system_bios_minor_release = smbios_type0.minor;
@@ -802,7 +809,7 @@ static void smbios_build_type_1_table(void)
 
 static void smbios_build_type_2_table(void)
 {
-    SMBIOS_BUILD_TABLE_PRE(2, T2_BASE, true); /* optional */
+    SMBIOS_BUILD_TABLE_PRE(2, T2_BASE, false); /* optional */
     SMBIOS_TABLE_SET_STR(2, manufacturer_str, type2.manufacturer);
     SMBIOS_TABLE_SET_STR(2, product_str, type2.product);
     SMBIOS_TABLE_SET_STR(2, version_str, type2.version);
@@ -829,7 +836,7 @@ static void smbios_build_type_3_table(void)
     t->boot_up_state = 0x03; /* Safe */
     t->power_supply_state = 0x03; /* Safe */
     t->thermal_state = 0x03; /* Safe */
-     t->security_status = 0x02; /* Unknown */
+    t->security_status = 0x02; /* Unknown */
     t->oem_defined = cpu_to_le32(0);
     t->height = 0;
     t->number_of_power_cords = 0;
@@ -1492,8 +1499,8 @@ static int save_opt_one(void *opaque,
                 break;
             }
             if (ret < 0) {
-                error_setg(errp, "Unable to read from %s: %s",
-                           value, strerror(errno));
+                error_setg_errno(errp, errno, "Unable to read from %s",
+                            value);
                 qemu_close(fd);
                 return -1;
             }
@@ -1504,6 +1511,8 @@ static int save_opt_one(void *opaque,
             }
             g_byte_array_append(data, (guint8 *)buf, ret);
         }
+        buf[0] = '\0';
+        g_byte_array_append(data, (guint8 *)buf, 1);
 
         qemu_close(fd);
 
@@ -1548,7 +1557,7 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
             return;
         }
 
-        size = get_image_size(val);
+        size = get_image_size(val, NULL);
         if (size == -1 || size < sizeof(struct smbios_structure_header)) {
             error_setg(errp, "Cannot read SMBIOS file %s", val);
             return;
@@ -1621,6 +1630,7 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
             save_opt(&smbios_type0.version, opts, "version");
             save_opt(&smbios_type0.date, opts, "date");
             smbios_type0.uefi = qemu_opt_get_bool(opts, "uefi", false);
+			smbios_type0.vm = qemu_opt_get_bool(opts, "vm", false);//AiCodo modify
 
             val = qemu_opt_get(opts, "release");
             if (val) {
