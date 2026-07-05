@@ -4,11 +4,15 @@ ls
 df -h
 git clone git://git.proxmox.com/git/pve-qemu.git
 cd pve-qemu
-# pve9 11.0.0-4
-git reset --hard f72b7ffaa3d401e09dd03fdea968d6b23c339555
+# pve9 11.0.2-1
+git reset --hard f17b668feb67097891a5f7012a99bcc1687c2584
 sudo apt install devscripts -y
 yes | sudo mk-build-deps --install
 git submodule update --init --recursive
+cp ../ACPI-SMBIOS.patch qemu/
+cd qemu
+patch -p1 < ACPI-SMBIOS.patch
+cd ..
 cp ../sedPatch-pve-qemu-kvm11-anti-dection.sh qemu/
 cd qemu
 meson subprojects download
@@ -20,32 +24,11 @@ cp ../../bootsplash.jpg pc-bios/bootsplash.jpg # modify seabios bootsplash.jpg
 sed -i "s/vgabios.bin/vgabios.bin',\n\t'bootsplash.jpg/g" pc-bios/meson.build # modify seabios bootsplash.jpg
 sed -i 's/current_machine->boot_config.splash;/"\/usr\/share\/kvm\/bootsplash.jpg";/g' hw/nvram/fw_cfg.c # modify seabios bootsplash.jpg
 sed -i 's/!object_dynamic_cast/object_dynamic_cast/g' hw/vfio/igd.c
-
-#bash ../../1plus.sh   		# 1plus modidy cpu P-core+E-core
-
-#bash ../../2plus.sh   		# 2plus modidy more cpu 
-
-#bash ../../3StrongStart.sh 	# 3StrongStart.sh q35 virtIO and roms
-
 git diff --submodule=diff > qemu-autoGenPatch.patch
 cp qemu-autoGenPatch.patch ../
-
-#bash ../../3StrongEnd.sh 		# 3StrongEnd.sh
-
 cd ..
 make clean
-make #改为一次编译
+make
 cd qemu/
 git checkout .
 cd ..
-
-# strong reset project data
-rm -Rf qemu/pc-bios
-git reset --hard master
-git submodule update --init --recursive --force
-git checkout .
-cd qemu/
-git checkout .
-git submodule update --init --recursive --force
-git checkout .
-cd ../..
