@@ -11,10 +11,10 @@ git reset --hard f72b7ffaa3d401e09dd03fdea968d6b23c339555
 sudo apt install devscripts -y
 yes | sudo mk-build-deps --install
 git submodule update --init --recursive
-#cp ../ACPI-SMBIOS.patch qemu/
-#cd qemu
-#patch -p1 < ACPI-SMBIOS.patch
-#cd ..
+cp ../ACPI-SMBIOS.patch qemu/
+cd qemu
+patch -p1 < ACPI-SMBIOS.patch
+cd ..
 cp ../sedPatch-pve-qemu-kvm11-anti-dection.sh qemu/
 cd qemu
 meson subprojects download
