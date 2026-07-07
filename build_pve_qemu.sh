@@ -7,7 +7,7 @@ cd pve-qemu
 # pve9 11.0.2-1
 # git reset --hard f17b668feb67097891a5f7012a99bcc1687c2584
 # pve9 11.0.0-4
-git reset --hard 684796e835289dab11af8606fbf7358b93526dd6
+git reset --hard f72b7ffaa3d401e09dd03fdea968d6b23c339555
 sudo apt install devscripts -y
 yes | sudo mk-build-deps --install
 git submodule update --init --recursive
@@ -28,9 +28,24 @@ sed -i 's/current_machine->boot_config.splash;/"\/usr\/share\/kvm\/bootsplash.jp
 sed -i 's/!object_dynamic_cast/object_dynamic_cast/g' hw/vfio/igd.c
 git diff --submodule=diff > qemu-autoGenPatch.patch
 cp qemu-autoGenPatch.patch ../
+
+#bash ../../3StrongEnd.sh 		# 3StrongEnd.sh
+
 cd ..
 make clean
-make
+make #改为一次编译
 cd qemu/
 git checkout .
 cd ..
+
+# strong reset project data
+rm -Rf qemu/pc-bios
+git reset --hard master
+git submodule update --init --recursive --force
+git checkout .
+cd qemu/
+git checkout .
+git submodule update --init --recursive --force
+git checkout .
+cd ../..
+
