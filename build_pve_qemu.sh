@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt-get install -y libacl1-dev libaio-dev libattr1-dev libcap-ng-dev libcurl4-gnutls-dev libepoxy-dev libfdt-dev libgbm-dev libgnutls28-dev libiscsi-dev libjpeg-dev libnuma-dev libpci-dev libpixman-1-dev libproxmox-backup-qemu0-dev librbd-dev libsdl1.2-dev libseccomp-dev libslirp-dev libspice-protocol-dev libspice-server-dev libsystemd-dev liburing-dev libusb-1.0-0-dev libusbredirparser-dev libvirglrenderer-dev meson python3-sphinx python3-sphinx-rtd-theme quilt xfslibs-dev
+apt-get install -y libacl1-dev libaio-dev libattr1-dev libcap-ng-dev libcurl4-gnutls-dev libepoxy-dev libfdt-dev libgbm-dev libgnutls28-dev libiscsi-dev libjpeg-dev libnuma-dev libpci-dev libpixman-1-dev libproxmox-backup-qemu0-dev librbd-dev libsdl1.2-dev libseccomp-dev libslirp-dev libspice-protocol-dev libspice-server-dev libsystemd-dev liburing-dev libusb-1.0-0-dev libusbredirparser-dev libvirglrenderer-dev meson python3-sphinx python3-sphinx-rtd-theme quilt xfslibs-dev
 ls
 df -h
 git clone git://git.proxmox.com/git/pve-qemu.git
@@ -9,7 +9,7 @@ cd pve-qemu
 # pve9 11.0.0-4
 git reset --hard f72b7ffaa3d401e09dd03fdea968d6b23c339555
 sudo apt install devscripts -y
-yes | sudo mk-build-deps --install
+yes | mk-build-deps --install
 git submodule update --init --recursive
 cp ../ACPI-SMBIOS.patch qemu/
 cd qemu
@@ -28,24 +28,9 @@ sed -i 's/current_machine->boot_config.splash;/"\/usr\/share\/kvm\/bootsplash.jp
 sed -i 's/!object_dynamic_cast/object_dynamic_cast/g' hw/vfio/igd.c
 git diff --submodule=diff > qemu-autoGenPatch.patch
 cp qemu-autoGenPatch.patch ../
-
-#bash ../../3StrongEnd.sh 		# 3StrongEnd.sh
-
 cd ..
 make clean
-make #改为一次编译
+make
 cd qemu/
 git checkout .
 cd ..
-
-# strong reset project data
-rm -Rf qemu/pc-bios
-git reset --hard master
-git submodule update --init --recursive --force
-git checkout .
-cd qemu/
-git checkout .
-git submodule update --init --recursive --force
-git checkout .
-cd ../..
-
